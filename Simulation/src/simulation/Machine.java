@@ -215,7 +215,7 @@ public class Machine implements CProcess,ProductAcceptor
 				duration = drawRandomNormal(meanProcTimeSD, sdSD);
 			}
 			if (duration < minReg) {
-				duration = minSD;
+				duration = minReg;
 			}
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
