@@ -21,7 +21,7 @@ public class Simulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    	lab1_initialize();
+    	bonus_initialize();
     }
 
     public static void lab1_initialize() {

@@ -171,7 +171,12 @@ public class Source implements CProcess
 				}
 				// Otherwise, select the shortest queue
 				else {
-					minQueue.giveProduct(p);
+					if (minQueue != null) {
+						minQueue.giveProduct(p);
+					}
+					else {
+						zeroQueue.giveProduct(p);
+					}
 				}
 			}
 		}
