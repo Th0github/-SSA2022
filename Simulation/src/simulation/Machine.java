@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.Random;
+
 /**
  *	Machine in a factory
  *	@author Joel Karel
@@ -250,8 +252,8 @@ public class Machine implements CProcess,ProductAcceptor
 
 	public static double drawRandomNormal(double mean, double sd)
 	{
-		//TODO
-		double res = 1.0;
+		Random r = new Random();
+		double res = r.nextGaussian() * sd + mean;
 		return res;
 	}
 
