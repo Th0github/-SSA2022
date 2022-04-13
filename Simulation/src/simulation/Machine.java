@@ -11,16 +11,23 @@ public class Machine implements CProcess,ProductAcceptor
 	private Product product;
 	/** Eventlist that will manage events */
 	private final CEventList eventlist;
-	/** Queue from which the machine has to take products */
+	/** Queue(s) from which the machine has to take products */
 	private Queue queue;
+	private Queue[] queueList;
 	/** Sink to dump products */
 	private ProductAcceptor sink;
 	/** Status of the machine (b=busy, i=idle) */
 	private char status;
 	/** Machine name */
 	private final String name;
-	/** Mean processing time */
+	/** Parameters regular*/
 	private double meanProcTime;
+	private double sdReg;
+	private double minReg;
+	/** Parameters service desk*/
+	private double meanProcTimeSD;
+	private double sdSD;
+	private double minSD;
 	/** Processing times (in case pre-specified) */
 	private double[] processingTimes;
 	/** Processing time iterator */
@@ -65,6 +72,58 @@ public class Machine implements CProcess,ProductAcceptor
 		meanProcTime=m;
 		queue.askProduct(this);
 	}
+
+	/**
+	 *	Constructor Regular Register
+	 *        Service times are exponentially distributed with specified mean
+	 *	@param q	Queue from which the machine has to take products
+	 *	@param s	Where to send the completed products
+	 *	@param e	Eventlist that will manage events
+	 *	@param n	The name of the machine
+	 *  @param m	Mean processing time
+	 * @param sd   Standard Deviation
+	 * @param min Minimum processing time
+	 */
+	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, double m, double sd, double min)
+	{
+		status='i';
+		queue=q;
+		sink=s;
+		eventlist=e;
+		name=n;
+		meanProcTime=m;
+		sdReg=sd;
+		minReg=min;
+		queue.askProduct(this);
+	}
+
+	/**
+	 *	Constructor
+	 *        Service times are exponentially distributed with specified mean
+	 *	@param q	Queues from which the machine has to take products
+	 *	@param s	Where to send the completed products
+	 *	@param e	Eventlist that will manage events
+	 *	@param n	The name of the machine
+	 *  @param m1	Mean processing time
+	 * 	@param sd1   Standard Deviation
+	 *  @param min1 Minimum processing time
+	 */
+	public Machine(Queue[] q, ProductAcceptor s, CEventList e, String n, double m1, double sd1, double min1, double m2, double sd2, double min2)
+	{
+		status='i';
+		queueList=q;
+		sink=s;
+		eventlist=e;
+		name=n;
+		meanProcTime=m1;
+		sdReg=sd1;
+		minReg=min1;
+		meanProcTimeSD=m2;
+		sdSD=sd2;
+		minSD=min2;
+		// I've honestly just randomly chosen this; doesn't matter much at construction time
+		queueList[0].askProduct(this);
+	}
 	
 	/**
 	*	Constructor
@@ -104,7 +163,15 @@ public class Machine implements CProcess,ProductAcceptor
 		// set machine status to idle
 		status='i';
 		// Ask the queue for products
-		queue.askProduct(this);
+		// Give priority to service desk queue
+		if (queueList != null) {
+			if (!queueList[1].askProduct(this)) {
+				queueList[0].askProduct(this);
+			}
+		}
+		else {
+			queue.askProduct(this);
+		}
 	}
 	
 	/**
@@ -123,7 +190,7 @@ public class Machine implements CProcess,ProductAcceptor
 			// mark starting time
 			product.stamp(eventlist.getTime(),"Production started",name);
 			// start production
-			startProduction();
+			startProduction(p);
 			// Flag that the product has arrived
 			return true;
 		}
@@ -136,15 +203,20 @@ public class Machine implements CProcess,ProductAcceptor
 	*	Start the handling of the current product with an exponentionally distributed processingtime with average 30
 	*	This time is placed in the eventlist
 	*/
-	private void startProduction()
+	private void startProduction(Product p)
 	{
 		// generate duration
-		if(meanProcTime>0)
-		{
-			double duration = drawRandomExponential(meanProcTime);
+		if(meanProcTime>0) {
+			double duration;
+			if (p.getType() == 0) {
+				duration = drawRandomNormal(meanProcTime, sdReg, minReg);
+			}
+			else {
+				duration = drawRandomNormal(meanProcTimeSD, sdSD, minSD);
+			}
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
-			eventlist.add(this,0,tme+duration); //target,type,time
+			eventlist.add(this,p.getType(),tme+duration); //target,type,time
 			// set status to busy
 			status='b';
 		}
@@ -172,4 +244,12 @@ public class Machine implements CProcess,ProductAcceptor
 		double res = -mean*Math.log(u);
 		return res;
 	}
+
+	public static double drawRandomNormal(double mean, double sd, double min)
+	{
+		//TODO
+		double res = 1.0;
+		return res;
+	}
+
 }

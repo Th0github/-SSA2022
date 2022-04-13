@@ -72,4 +72,8 @@ public class Queue implements ProductAcceptor
 		}
 		return true;
 	}
+
+	public int getQueueLength() {
+		return row.size();
+	}
 }
