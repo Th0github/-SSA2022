@@ -66,7 +66,7 @@ public class Source implements CProcess
 	 *	@param l	The eventlist that is requested to construct events
 	 *	@param n	Name of object
 	 *	@param m1	Mean arrival time regular customer
-	 *  @param m2  	Mean arrivel time service desk customer
+	 *  @param m2  	Mean arrival time service desk customer
 	 */
 	public Source(ProductAcceptor[] q,CEventList l,String n,double m1, double m2)
 	{

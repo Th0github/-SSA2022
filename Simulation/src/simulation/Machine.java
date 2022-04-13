@@ -209,10 +209,13 @@ public class Machine implements CProcess,ProductAcceptor
 		if(meanProcTime>0) {
 			double duration;
 			if (p.getType() == 0) {
-				duration = drawRandomNormal(meanProcTime, sdReg, minReg);
+				duration = drawRandomNormal(meanProcTime, sdReg);
 			}
 			else {
-				duration = drawRandomNormal(meanProcTimeSD, sdSD, minSD);
+				duration = drawRandomNormal(meanProcTimeSD, sdSD);
+			}
+			if (duration < minReg) {
+				duration = minSD;
 			}
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
@@ -245,7 +248,7 @@ public class Machine implements CProcess,ProductAcceptor
 		return res;
 	}
 
-	public static double drawRandomNormal(double mean, double sd, double min)
+	public static double drawRandomNormal(double mean, double sd)
 	{
 		//TODO
 		double res = 1.0;

@@ -64,8 +64,6 @@ public class Simulation {
         // A sink
         Sink si = new Sink("Sink 1");
 
-        //TODO: THINGS BELOW THIS
-
         // Regular registers
         for (int i = 0; i < 5; i++) {
             Machine m = new Machine(allQueues[i], si, l, ("Regular Register" + i), 2.6, 1.1, (1.0/60.0));
