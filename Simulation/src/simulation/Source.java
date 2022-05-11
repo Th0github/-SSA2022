@@ -133,7 +133,7 @@ public class Source implements CProcess
 				// We first go through the regular queues
 				for (int i = 0; i < 5; i++) {
 					Queue q = (Queue) queueList[i];
-					if (q.getQueueLength() >= 0) {
+					if (q.getQueueLength() > 0) {
 						occupiedRegQueues++;
 						occupiedQueues++;
 						if (q.getQueueLength() >= 4) {
@@ -149,7 +149,7 @@ public class Source implements CProcess
 					}
 				}
 				// Add combined queue logic
-				if (combinedReg.getQueueLength() + combinedSD.getQueueLength() >= 0) {
+				if (combinedReg.getQueueLength() + combinedSD.getQueueLength() > 0) {
 					occupiedQueues++;
 				}
 				if (combinedReg.getQueueLength() + combinedSD.getQueueLength() >= 4) {
@@ -166,7 +166,7 @@ public class Source implements CProcess
 					if (zeroQueue != null) {
 						zeroQueue.giveProduct(p);
 					} else {
-						minQueue.giveProduct(p);
+						minQueue.giveProduct(p); // Case where all queues are full
 					}
 				}
 				// Otherwise, select the shortest queue
@@ -221,6 +221,7 @@ public class Source implements CProcess
 		double u = Math.random();
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
+
 		return res;
 	}
 }

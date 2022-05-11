@@ -44,4 +44,8 @@ public class CEvent
 	{
 		return executionTime;
 	}
+
+	public int getType() {
+		return type;
+	}
 }
