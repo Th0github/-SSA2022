@@ -78,6 +78,14 @@ public class Simulation {
         // Start simulation, specifying stopping criteria
         l.start(1440 * days); // One day has 1440 minutes
 
+        double[] times = si.getTimes();
+        String[] names = si.getEvents();
+        int[] types = si.getTypes();
+
+        for (int i = 0; i < times.length; i++) {
+            System.out.println(names[i] +  " at " + times[i] + " of type " + types[i]);
+        }
+
         // After simulation, call on sink object to receive statistical information
     }
 }

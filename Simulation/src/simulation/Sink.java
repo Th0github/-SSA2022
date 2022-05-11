@@ -15,6 +15,7 @@ public class Sink implements ProductAcceptor
 	private ArrayList<Double> times;
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
+	private ArrayList<Integer> types;
 	/** Counter to number products */
 	private int number;
 	/** Name of the sink */
@@ -31,6 +32,7 @@ public class Sink implements ProductAcceptor
 		times = new ArrayList<>();
 		events = new ArrayList<>();
 		stations = new ArrayList<>();
+		types = new ArrayList<>();
 		number = 0;
 	}
 	
@@ -43,12 +45,14 @@ public class Sink implements ProductAcceptor
 		ArrayList<Double> t = p.getTimes();
 		ArrayList<String> e = p.getEvents();
 		ArrayList<String> s = p.getStations();
+		int type = p.getType();
 		for(int i=0;i<t.size();i++)
 		{
 			numbers.add(number);
 			times.add(t.get(i));
 			events.add(e.get(i));
 			stations.add(s.get(i));
+			types.add(type);
 		}
 		return true;
 	}
@@ -86,6 +90,15 @@ public class Sink implements ProductAcceptor
 	{
 		String[] tmp = new String[stations.size()];
 		tmp = stations.toArray(tmp);
+		return tmp;
+	}
+
+	public int[] getTypes(){
+		int[] tmp = new int[types.size()];
+		for (int i=0; i < types.size(); i++)
+		{
+			tmp[i] = (types.get(i)).intValue();
+		}
 		return tmp;
 	}
 }
