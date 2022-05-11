@@ -1,5 +1,7 @@
 package simulation;
 
+import static simulation.Simulation.stream;
+
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -104,7 +106,7 @@ public class Source implements CProcess
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + tme);
+		stream.println("Arrival at time = " + tme);
 		// give arrived product to queue
 		Product p = new Product(type);
 		p.stamp(tme,"Creation",name);
@@ -118,6 +120,7 @@ public class Source implements CProcess
 			// For clarity
 			Queue combinedReg = (Queue) queueList[5];
 			Queue combinedSD = (Queue) queueList[6];
+
 			// Service desk customer can only join the service desk queue
 			if (type == 1) {
 				combinedSD.giveProduct(p);
@@ -181,7 +184,7 @@ public class Source implements CProcess
 			}
 		}
 		// generate duration
-		if(meanArrTime>0 && meanArrTime2 >0)
+		if(meanArrTime>0 && meanArrTime2 > 0)
 		{
 			// Select the right interarrival time, add right type
 			if (type == 1) {
@@ -213,6 +216,7 @@ public class Source implements CProcess
 				list.stop();
 			}
 		}
+
 	}
 	
 	public static double drawRandomExponential(double mean)
