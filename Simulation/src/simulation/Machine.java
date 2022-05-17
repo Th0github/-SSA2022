@@ -2,6 +2,8 @@ package simulation;
 
 import java.util.Random;
 
+import static simulation.Simulation.stream;
+
 /**
  *	Machine in a factory
  *	@author Joel Karel
@@ -157,7 +159,7 @@ public class Machine implements CProcess,ProductAcceptor
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Product finished at time = " + tme);
+		stream.println("Product finished at time = " + tme);
 		// Remove product from system
 		product.stamp(tme,"Production complete",name);
 		sink.giveProduct(product);
@@ -239,6 +241,9 @@ public class Machine implements CProcess,ProductAcceptor
 				eventlist.stop();
 			}
 		}
+
+
+
 	}
 
 	public static double drawRandomExponential(double mean)
