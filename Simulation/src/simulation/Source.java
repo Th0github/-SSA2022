@@ -117,6 +117,7 @@ public class Source implements CProcess
 		// IMPORTANT NOTE: WE TAKE queueList(5) and queueList(6) as the combined queue
 		// With 5 = regular queue and 6 = service desk queue
 		else {
+
 			// For clarity
 			Queue combinedReg = (Queue) queueList[5];
 			Queue combinedSD = (Queue) queueList[6];

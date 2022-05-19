@@ -77,7 +77,7 @@ public class Simulation {
 
                 // Regular registers
                 for (int i = 0; i < 5; i++) {
-                    Machine m = new Machine(allQueues[i], si, l, ("Regular Register" + i), 2.6, 1.1, (1.0 / 60.0));
+                    Machine m = new Machine(allQueues[i], si, l, String.valueOf(i), 2.6, 1.1, (1.0 / 60.0));
                 }
                 // Combined register, needs to accept 2 queues and work with different service times
                 // IMPORTANT NOTE: WE TAKE queueList(5) and queueList(6) as the combined queue
@@ -102,6 +102,8 @@ public class Simulation {
                 bw.write(" , ");
                 bw.write(si.getEvents()[2]);
                 bw.write(" , ");
+                bw.write("Station/Queue");
+                bw.write(" , ");
                 bw.write("Type");
 
                 bw.write("\n");
@@ -113,13 +115,15 @@ public class Simulation {
                     bw.write(" , ");
                     bw.write(String.valueOf(si.getProducts().get(i).getTimes().get(2)));
                     bw.write(" , ");
+                    bw.write(String.valueOf(si.getProducts().get(i).getStations().get(2)));
+                    bw.write(" , ");
                     bw.write(String.valueOf(si.getProducts().get(i).getType()));
                     bw.write("\n");
                 }
 
                 bw.close();
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 File output = new File(currFile + ".txt");
                 File output2 = new File(currFile + ".csv");
             }
